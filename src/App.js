@@ -201,7 +201,8 @@ function App(props) {
         <ul>{filepath}</ul>
       </aside> */}
       <aside style={thumbsContainer}>{thumbs}</aside>
-      {<button onClick={sendFile}>Send</button>}
+      {false && <button onClick={sendFile}>Send</button>}
+      <input type="file" name="myImage" accept="image/*" />
     </div>
   );
 }
