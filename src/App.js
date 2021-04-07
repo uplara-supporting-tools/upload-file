@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useDropzone } from "react-dropzone";
+import './App.css';
 
 const baseStyle = {
   flex: 1,
@@ -73,6 +74,21 @@ function App(props) {
   useEffect(()=>{
     setSlug(availableSlug)
   },[availableSlug])
+
+  // let loadFile = (event) => {
+  //   var image = document.getElementById('output');
+  //   console.log(event)
+  //   image.src = URL.createObjectURL(event.target.files[0]);
+  // };
+
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
+  
   const {
     getRootProps,
     getInputProps,
@@ -177,11 +193,13 @@ function App(props) {
     }
   };
   return (
+    <div>
     <div className="container">
       <input
         type="text"
         value={slug}
         onChange={(e) => setSlug(e.target.value)}
+        style={{display: "none"}}
       />
       {files.length != 1 && (
         <div {...getRootProps({ style })}>
@@ -202,7 +220,11 @@ function App(props) {
       </aside> */}
       <aside style={thumbsContainer}>{thumbs}</aside>
       {false && <button onClick={sendFile}>Send</button>}
-      <input type="file" name="myImage" accept="image/*" />
+      <h2>TEST NATIVE ELEMENT</h2>
+      <input type="file" name="myImage" accept="image/*" onChange={(e) => loadFile(e)} className={"custom-file-input"}/>
+      
+    </div>
+      <img src="" id="output"/>
     </div>
   );
 }
